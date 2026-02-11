@@ -1,0 +1,14 @@
+# Generic path loading for GUI clients (SourceTree, etc.)
+export PATH="/usr/local/bin:/opt/homebrew/bin:$PATH"
+
+# Load nvm if it exists
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# Load fnm if it exists
+if [ -d "$HOME/.local/share/fnm" ]; then
+  export PATH="$HOME/.local/share/fnm:$PATH"
+  eval "$(fnm env)"
+fi
+
+npx lint-staged

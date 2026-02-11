@@ -1,0 +1,3 @@
+[submodule "app-login"]
+	path = app-login
+	url = ssh://git@git.alp.com.tw:22/alp/app-login.git

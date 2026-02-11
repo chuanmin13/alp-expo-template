@@ -2,7 +2,7 @@
 
 本專案為公司內部 React Native Bare Workflow 轉移至 Expo 的初始專案模板
 
-[expo](https://docs.expo.dev/)
+參考文件：[Expo Docs](https://docs.expo.dev/)
 
 ## 功能與套件
 本專案包含開發所需的基本功能套件及設定：
@@ -24,7 +24,7 @@
 - **Node**: v20
 - **Java**: 17
   
-參考連結: https://docs.expo.dev/versions/latest/
+參考文件：[Expo Reference](https://docs.expo.dev/versions/latest/)
 
 
 ## 使用步驟
@@ -80,7 +80,7 @@
    
    這些指令會啟動測試環境（等同於執行 `npx expo run:ios` / `npx expo run:android`）
 
-   更多本地測試資訊可參考 [Local App Overview](https://docs.expo.dev/guides/local-app-overview/)
+   更多本地測試資訊可參考：[Create a debug build locally](https://docs.expo.dev/guides/local-app-development/)
 
 
 ### 8. 移植程式碼
@@ -102,4 +102,4 @@
   
   清除 Android/iOS 原生專案資料夾並重新生成，當遇到原生模組連結錯誤或設定未生效時，可使用此指令重置
 
-  參考資料: [Continuous Native Generation (CNG)](https://docs.expo.dev/workflow/continuous-native-generation/)
+  參考資料：[Continuous Native Generation (CNG)](https://docs.expo.dev/workflow/continuous-native-generation/)

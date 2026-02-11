@@ -11,7 +11,11 @@
       "buildNumber": "0",
       "supportsTablet": true,
       "bundleIdentifier": "com.alp.alp-expo-template",
+      "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {
+        "UIBackgroundModes": [
+          "remote-notification"
+        ],
         "CFBundleAllowMixedLocalizations": true,
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -23,9 +27,11 @@
         "foregroundImage": "./assets/images/adaptiveIcon.png",
         "backgroundColor": "#000000"
       },
+      "googleServicesFile": "./google-services.json",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "permissions": [
+        "POST_NOTIFICATIONS"
       ]
     },
     "locales": {
@@ -33,6 +39,8 @@
       "zh-TW": "./languages/zh-TW.json"
     },
     "plugins": [
+      "./plugins/index.js",
+      "@react-native-firebase/app",
       [
         "expo-splash-screen",
         {
@@ -48,7 +56,20 @@
       [
         "expo-screen-orientation",
         {
-          "initialOrientation": "DEFAULT"
+          "initialOrientation": "PORTRAIT"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static",
+            "buildReactNativeFromSource": true,
+            "deploymentTarget": "15.5",
+            "forceStaticLinking": [
+              "RNFBApp"
+            ]
+          }
         }
       ]
     ]

@@ -1,6 +1,8 @@
 # ALP Expo Template
 
-本專案為公司內部 React Native Bare Workflow 轉移至 Expo 的初始專案模板。
+本專案為公司內部 React Native Bare Workflow 轉移至 Expo 的初始專案模板
+
+[expo](https://docs.expo.dev/)
 
 ## 功能與套件
 本專案包含開發所需的基本功能套件及設定：
@@ -8,6 +10,7 @@
 - **導航**: React Navigation
 - **狀態管理**: Redux
 - **工具庫**: Moment.js, i18next
+- **推播通知**: Firebase Cloud Messaging
 - **熱更新**: Revopush
 - **錯誤追蹤**: Bugsnag
 - **代碼規範與工具**: Babel, ESLint, Husky
@@ -22,6 +25,7 @@
 - **Java**: 17
   
 參考連結: https://docs.expo.dev/versions/latest/
+
 
 ## 使用步驟
 
@@ -55,7 +59,8 @@
 
 ### 5. 更換資源檔案
    
-   替換 `assets/images` 中的圖片資源為新專案的圖示與啟動畫面
+   - 替換 `assets/images` 中的圖片資源為新專案的圖示與啟動畫面
+   - 從原始專案複製 `GoogleService-Info.plist` (iOS) 與 `google-services.json` (Android) 至專案根目錄
 
 ### 6. 設定環境變數
    
@@ -85,6 +90,7 @@
 ### 9. 最終測試與調整
 
    執行 `npm install` 安裝新加入的套件，啟動專案進行測試並做相對應的調整與更新
+
 
 ## 常用指令
 

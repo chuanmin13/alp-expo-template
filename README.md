@@ -66,7 +66,7 @@
 
 ### 7. 啟動測試
    
-   确认项目可以正常启动
+   確認專案可以正常啟動
    ```bash
    npm run ios
    # 或
@@ -84,7 +84,7 @@
 
 ### 9. 最終測試與調整
 
-   執行 `npm install` 安装新加入的套件，啟動項目進行測試，並做相對應的調整與更新
+   執行 `npm install` 安裝新加入的套件，啟動專案進行測試並做相對應的調整與更新
 
 ## 常用指令
 
@@ -95,3 +95,5 @@
 - **`npx expo prebuild --clean`**
   
   清除 Android/iOS 原生專案資料夾並重新生成，當遇到原生模組連結錯誤或設定未生效時，可使用此指令重置
+
+  參考資料: [Continuous Native Generation (CNG)](https://docs.expo.dev/workflow/continuous-native-generation/)

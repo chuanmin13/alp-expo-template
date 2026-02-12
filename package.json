@@ -8,8 +8,7 @@
     "ios": "npx expo run:ios",
     "lint": "expo lint",
     "push:ios": "revopush release-react alp-expo-template-ios ios -d appcenter_Production -x",
-    "push:android": "revopush release-react alp-expo-template-android android -d appcenter_Production -x",
-    "prepare": "husky"
+    "push:android": "revopush release-react alp-expo-template-android android -d appcenter_Production -x"
   },
   "dependencies": {
     "@bugsnag/expo": "54.0.0",
@@ -68,5 +67,12 @@
   "lint-staged": {
     "*.js": "eslint --fix"
   },
-  "private": true
+  "private": true,
+  "files": [
+    "*",
+    ".husky",
+    ".env.local.example",
+    ".gitignore",
+    ".eslintrc.json"
+  ]
 }

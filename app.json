@@ -22,7 +22,7 @@
     },
     "android": {
       "versionCode": 57,
-      "package": "com.alp.omegaapp",
+      "package": "com.alp.alp-expo-template",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptiveIcon.png",
         "backgroundColor": "#000000"

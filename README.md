@@ -33,12 +33,14 @@
    
    ```bash
    npx create-expo-app appName --template <repository-url>
-   ```
 
-### 2. 如果初始化時沒有自動執行，需手動安裝依賴
-   ```bash
+   # 如果沒有自動執行，需手動安裝依賴
    npm install
    ```
+
+### 2. 專案建立後的調整
+   - 移除 `package.json` 中的 `files` 欄位：該欄位僅用於 Template 下載完整性，新專案不需要
+   - Husky 設定
 
 ### 3. 設定專案資訊
    
@@ -59,7 +61,9 @@
 ### 5. 更換資源檔案
    
    - 替換 `assets/images` 中的圖片資源為新專案的圖示與啟動畫面
-   - 從原始專案複製 `GoogleService-Info.plist` (iOS) 與 `google-services.json` (Android) 至專案根目錄
+     - 顯示有問題的話可以用[Expo Icon Generator](https://expo-assets-generator.vercel.app/)產出不同尺寸測試
+   - 若有使用 firebase，從原始專案複製 `GoogleService-Info.plist` (iOS) 與 `google-services.json` (Android) 至專案根目錄
+   - 若無使用 firebase 要移除相關套件、app.json 相關設定
 
 ### 6. 設定環境變數
    
@@ -90,7 +94,14 @@
 
    執行 `npm install` 安裝新加入的套件，啟動專案進行測試並做相對應的調整與更新
 
-### 10. 將新的專案 merge 回原本的 git repo
+### 10. 將新的專案移植回原本的 git repo
+
+### 11. Git Hooks 工具 - Husky
+```
+npx husky install
+```
+執行 git commit 確認會先進行 lint-staged 檢查
+
 
 ## 常用指令
 

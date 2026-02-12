@@ -29,14 +29,13 @@
 
 ## 使用步驟
 
-### 1. Clone 專案
+### 1. 初始化專案
    
-   將專案 clone 到本地：
    ```bash
-   git clone <repository-url>
+   npx create-expo-app appName --template <repository-url>
    ```
 
-### 2. 安裝依賴
+### 2. 如果初始化時沒有自動執行，需手動安裝依賴
    ```bash
    npm install
    ```
@@ -91,6 +90,7 @@
 
    執行 `npm install` 安裝新加入的套件，啟動專案進行測試並做相對應的調整與更新
 
+### 10. 將新的專案 merge 回原本的 git repo
 
 ## 常用指令
 

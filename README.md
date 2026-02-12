@@ -44,16 +44,16 @@
 
 ### 3. 設定專案資訊
    
-   - 修改 `package.json` 中的 `name`
+   - 修改 `package.json` 中的 `name` (與原專案相同)
    - 更新 `scripts` 中的 `push` 指令（請至 Revopush 網頁複製相對應的指令）
 
 ### 4. 設定 App 資訊
    
    修改 `app.json` 以符合所需的 App 名稱、雙平台版號及唯一識別碼：
    - `name`: App 顯示名稱
-   - `slug`: Expo 專案識別名稱 (需與 name 對應)
+   - `slug`: Expo 專案識別名稱 (原專案的 app.json `name`)
    - `version`: App 版號 (例如: 1.0)
-   - `scheme`: App Deep Link Scheme (建議全小寫)
+   - `scheme`: App Deep Link Scheme (建議全小寫，可與 `slug` 相同)
    - `ios.bundleIdentifier`: iOS 唯一識別碼 (例如: com.company.appname)
    - `android.package`: Android 唯一識別碼 (例如: com.company.appname)
    - `ios.buildNumber` / `android.versionCode`: 版本號
@@ -74,14 +74,14 @@
 
 ### 7. 啟動測試
    
-   確認專案可以正常啟動
+   **Hello world! alp-expo-template**
    ```bash
    npm run ios
    # 或
    npm run android
    ```
    
-   這些指令會啟動測試環境（等同於執行 `npx expo run:ios` / `npx expo run:android`）
+   這些指令會啟動測試環境 (等同於執行 `npx expo run:ios` / `npx expo run:android`)
 
    更多本地測試資訊可參考：[Create a debug build locally](https://docs.expo.dev/guides/local-app-development/)
 
@@ -89,6 +89,7 @@
 ### 8. 移植程式碼
    - 將原有 App 的 `src` 資料夾移植過來
    - 將其他所需套件加入 `package.json`
+   - 移除、清理非必要套件
 
 ### 9. 最終測試與調整
 

@@ -29,7 +29,7 @@
 
 ## 使用步驟
 
-### 1. 初始化專案
+### 1. 以模板建立新專案
    
    ```bash
    npx create-expo-app appName --template <repository-url>
@@ -38,14 +38,14 @@
    npm install
    ```
 
-### 2. 專案建立後的調整
+### 2. 初始化調整
    - 移除 `package.json` 中的 `files` 欄位：該欄位僅用於 Template 下載完整性，新專案不需要
    - Husky 設定
 
 ### 3. 設定專案資訊
    
    - 修改 `package.json` 中的 `name` (與原專案相同)
-   - 更新 `scripts` 中的 `push` 指令（請至 Revopush 網頁複製相對應的指令）
+   - 更新 `scripts` 中的 `push` 指令（請至 [Revopush](https://app.revopush.org/applications) 複製相對應的指令）
 
 ### 4. 設定 App 資訊
    
@@ -61,7 +61,7 @@
 ### 5. 更換資源檔案
    
    - 替換 `assets/images` 中的圖片資源為新專案的圖示與啟動畫面
-     - 顯示有問題的話可以用[Expo Icon Generator](https://expo-assets-generator.vercel.app/)產出不同尺寸測試
+     - 顯示有問題的話可以用 [Expo Icon Generator](https://expo-assets-generator.vercel.app/) 產出不同尺寸測試
    - 若有使用 firebase，從原始專案複製 `GoogleService-Info.plist` (iOS) 與 `google-services.json` (Android) 至專案根目錄
    - 若無使用 firebase 要移除相關套件、app.json 相關設定
 
@@ -86,11 +86,32 @@
    更多本地測試資訊可參考：[Create a debug build locally](https://docs.expo.dev/guides/local-app-development/)
 
 
-### 8. 移植程式碼
-   - 將原有 App 的 `src` 資料夾移植過來
-   - 更新 `App.js` 檔案：註解復原、移除多餘程式碼及引入、與原始專案對照確認
-   - 將其他所需套件加入 `package.json`
-   - 移除 `src/package.json`
+### 8. 移植程式碼回原始專案 repo
+   - 原始專案開新分支
+   - 移除原始專案中的以下檔案/資料夾
+     - ios
+     - android
+     - metro.config.js
+     - package.lock.json
+     - node_module
+   - 將 expo 專案的以下檔案移植/取代原始專案中的
+     - tsconfig.json
+     - package.json
+     - index.js
+     - App.js
+     - app.json
+     - app.config.js
+     - eslint.config.json
+     - babel.config.js
+     - plugins
+     - languages
+     - assets
+     - .gitignore
+     - .husky
+     - .env.local
+     - .env.local.example
+
+   - 檢視原始專案舊版 `package.json` 將所需套件加入
    - 清理非必要套件
 
 ### 9. 最終測試與調整
@@ -104,11 +125,7 @@
    - `react-native-device-info` to `expo-device` + `expo-application`
    - `react-native-localize` to `expo-localization`
 
-### 10. 將新的專案移植回原本的 git repo
-**注意不要覆蓋原有專案的以下檔案：**
-
-1. .git 資料夾
-2. README.md (完成遷移後記得修改更新內容)
+### 10. 更新 README
 
 ### 11. Git 相關
 **移除對原生資料夾的追蹤，確保.gitignore 有效**

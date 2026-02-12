@@ -88,12 +88,21 @@
 
 ### 8. 移植程式碼
    - 將原有 App 的 `src` 資料夾移植過來
+   - 更新 `App.js` 檔案：註解復原、移除多餘程式碼及引入、與原始專案對照確認
    - 將其他所需套件加入 `package.json`
-   - 移除、清理非必要套件
+   - 移除 `src/package.json`
+   - 清理非必要套件
 
 ### 9. 最終測試與調整
 
    執行 `npm install` 安裝新加入的套件，啟動專案進行測試並做相對應的調整與更新
+
+   **本次有做的調整: (新寫法可參考 omegaapp)**
+   - 移除 `native-base` 套件：Spinner 改用 `ActivityIndicator`，Divider 寫客製共用元件
+   - `react-native-code-push` to `@revopush/react-native-code-push`
+   - `@bugsnag/react-native` to `@bugsnag/expo`
+   - `react-native-device-info` to `expo-device` + `expo-application`
+   - `react-native-localize` to `expo-localization`
 
 ### 10. 將新的專案移植回原本的 git repo
 **注意不要覆蓋原有專案的以下檔案：**
@@ -101,7 +110,13 @@
 1. .git 資料夾
 2. README.md (完成遷移後記得修改更新內容)
 
-### 11. Git Hooks 工具 - Husky
+### 11. Git 相關
+**移除對原生資料夾的追蹤，確保.gitignore 有效**
+```
+git rm -r --cached ios android
+```
+
+**Git Hooks 工具 - Husky**
 ```
 npx husky install
 ```

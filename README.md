@@ -40,7 +40,6 @@
 
 ### 2. 初始化調整
    - 移除 `package.json` 中的 `files` 欄位：該欄位僅用於 Template 下載完整性，新專案不需要
-   - Husky 設定
 
 ### 3. 設定專案資訊
    
@@ -94,6 +93,7 @@
      - metro.config.js
      - package.lock.json
      - node_module
+     - src/package.json
    - 將 expo 專案的以下檔案移植/取代原始專案中的
      - tsconfig.json
      - package.json
@@ -111,14 +111,14 @@
      - .env.local
      - .env.local.example
 
-   - 檢視原始專案舊版 `package.json` ，安裝專案所需套件
+   - 檢視原始專案舊版 `package.json` ，安裝其他所需套件
    - 清理非必要套件
 
 ### 9. 最終測試與調整
 
    執行 `npm install` 安裝新加入的套件，啟動專案進行測試並做相對應的調整與更新
 
-   **本次有做的調整: (新寫法可參考 omegaapp)**
+   **必要調整: (新寫法可參考 omegaapp)**
    - 移除 `native-base` 套件：Spinner 改用 `ActivityIndicator`，Divider 寫客製共用元件
    - `react-native-code-push` to `@revopush/react-native-code-push`
    - `@bugsnag/react-native` to `@bugsnag/expo`

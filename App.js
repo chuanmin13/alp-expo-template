@@ -7,7 +7,7 @@ import Bugsnag from '@bugsnag/expo'
 import { NavigationContainer } from '@react-navigation/native'
 import codePush from '@revopush/react-native-code-push'
 import { applicationName } from 'expo-application'
-import 'react-native-gesture-handler'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 // import '~/locales'
 // import reducers from '~/reducers'
@@ -44,15 +44,17 @@ const App = () => {
 
   return (
     // <Provider store={store}>
-    <NavigationContainer>
-      {/* <ErrorBoundary FallbackComponent={ErrorView}> */}
-      {/* <AppContainer /> */}
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Hello World!</Text>
-        <Text style={{ fontSize: 20, fontWeight: 'bold', backgroundColor: 'yellow' }}>{applicationName}</Text>
-      </View>
-      {/* </ErrorBoundary> */}
-    </NavigationContainer>
+    <GestureHandlerRootView>
+      <NavigationContainer>
+        {/* <ErrorBoundary FallbackComponent={ErrorView}> */}
+        {/* <AppContainer /> */}
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text>Hello World!</Text>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', backgroundColor: 'yellow' }}>{applicationName}</Text>
+        </View>
+        {/* </ErrorBoundary> */}
+      </NavigationContainer>
+    </GestureHandlerRootView>
     // </Provider>
   )
 }

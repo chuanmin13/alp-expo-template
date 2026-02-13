@@ -111,7 +111,7 @@
      - .env.local
      - .env.local.example
 
-   - 檢視原始專案舊版 `package.json` 將所需套件加入
+   - 檢視原始專案舊版 `package.json` ，安裝專案所需套件
    - 清理非必要套件
 
 ### 9. 最終測試與調整
@@ -126,6 +126,7 @@
    - `react-native-localize` to `expo-localization`
 
 ### 10. 更新 README
+更新原始專案的 README 以符合新架構
 
 ### 11. Git 相關
 **移除對原生資料夾的追蹤，確保.gitignore 有效**
@@ -137,7 +138,7 @@ git rm -r --cached ios android
 ```
 npx husky install
 ```
-執行 git commit 確認會先進行 lint-staged 檢查
+測試確認執行 git commit 時會先進行 lint-staged 檢查
 
 
 ## 常用指令

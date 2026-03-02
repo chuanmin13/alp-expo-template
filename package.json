@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "android": "npx expo run:android",
-    "ios": "npx expo run:ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "lint": "expo lint",
     "push:ios": "revopush release-react alp-expo-template-ios ios -d appcenter_Production -x",
     "push:android": "revopush release-react alp-expo-template-android android -d appcenter_Production -x"

@@ -66,10 +66,7 @@
 
 ### 6. 設定環境變數
    
-   複製 `.env.local.example` 為 `.env.local`，並填入相關金鑰（如 Bugsnag API Key, CodePush Key 等）：
-   ```bash
-   cp .env.local.example .env.local
-   ```
+   `.env` 檔案中填入相關金鑰（如 Bugsnag API Key, CodePush Key 等）
 
 ### 7. 啟動測試
    

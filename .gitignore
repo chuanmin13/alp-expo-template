@@ -38,3 +38,7 @@ app-example
 # generated native folders
 /ios
 /android
+
+# export HermesJS bundle and assets
+/build-ios
+/build-android

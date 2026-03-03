@@ -44,14 +44,14 @@
 ### 3. 設定專案資訊
    
    - 修改 `package.json` 中的 `name` (與原專案相同)
-   - 更新 `scripts` 中的 `push` 指令（請至 [Revopush](https://app.revopush.org/applications) 複製相對應的指令）
+   - 更新 `scripts` 中的 `push` 指令，替換掉 `alp-expo-template-ios`/`alp-expo-template-android`（至 [Revopush](https://app.revopush.org/applications) 確認專案名稱）
 
 ### 4. 設定 App 資訊
    
    修改 `app.json` 以符合所需的 App 名稱、雙平台版號及唯一識別碼：
    - `name`: App 顯示名稱
    - `slug`: Expo 專案識別名稱 (原專案的 app.json `name`)
-   - `version`: App 版號 (例如: 1.0)
+   - `version`: App 版號 (例如: 2.22.0) --> 全面改寫為三碼，符合 Semantic Versioning 規範
    - `scheme`: App Deep Link Scheme (建議全小寫，可與 `slug` 相同)
    - `ios.bundleIdentifier`: iOS 唯一識別碼 (例如: com.company.appname)
    - `android.package`: Android 唯一識別碼 (例如: com.company.appname)
@@ -149,3 +149,21 @@ npx husky install
   清除 Android/iOS 原生專案資料夾並重新生成，當遇到原生模組連結錯誤或設定未生效時，可使用此指令重置
 
   參考資料：[Continuous Native Generation (CNG)](https://docs.expo.dev/workflow/continuous-native-generation/)
+
+## code push 流程更新
+
+  1. 使用自訂義的 npm script
+  2. 確認要更新的版本號(如：2.21.0)
+  3. 執行 `version=2.21.0 npm run push:ios` 或 `version=2.21.0 npm run push:android`
+      該指令會執行 expo export 產出專案的 HermesJS bundle 和 assets，接著 release 到 revopush
+  4. 至 revopush 專案查看 bundle 是否有上傳成功
+  5. 確定要發佈更新時，切換 Status -> Enabled
+
+  **revopush 規定需使用 Semantic Versioning，版本號字串需完全匹配才能正確更新，因此所有應用程式版號皆同步改為三碼**
+
+  `MAJOR.MINOR.PATCH`
+
+  - MAJOR version when you make backwards incompatible changes
+  - MINOR version when you add functionality in a backward compatible manner
+  - PATCH version when you make backward compatible bug fixes
+   

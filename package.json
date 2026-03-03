@@ -7,8 +7,8 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "lint": "expo lint",
-    "push:ios": "revopush release-react alp-expo-template-ios ios -d appcenter_Production -x",
-    "push:android": "revopush release-react alp-expo-template-android android -d appcenter_Production -x"
+    "push:ios": "npx expo export:embed --platform ios --dev false --reset-cache --bundle-output ./build-ios/main.jsbundle --assets-dest ./build-ios --bytecode && revopush release alp-expo-template-ios ./build-ios \"$version\" -d appcenter_Production -x",
+    "push:android": "npx expo export:embed --platform android --dev false --reset-cache --bundle-output ./build-android/index.android.bundle --assets-dest ./build-android --bytecode && revopush release alp-expo-template-android ./build-android \"$version\" -d appcenter_Production -x"
   },
   "dependencies": {
     "@bugsnag/expo": "54.0.0",

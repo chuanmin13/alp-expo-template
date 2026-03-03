@@ -32,11 +32,16 @@
 ### 1. 以模板建立新專案
    
    ```bash
-   npx create-expo-app appName --template <repository-url>
+   npx create-expo-app appName --template <repository-url> --no-install
+   ```
 
-   # 如果沒有自動執行，需手動安裝依賴
+   手動安裝依賴
+   ```
    npm install
    ```
+
+   複製 .husky/pre-commit 到新專案的 .husky 資料夾
+
 
 ### 2. 初始化調整
    - 移除 `package.json` 中的 `files` 欄位：該欄位僅用於 Template 下載完整性，新專案不需要
@@ -67,6 +72,12 @@
 ### 6. 設定環境變數
    
    `.env` 檔案中填入相關金鑰（如 Bugsnag API Key, CodePush Key 等）
+   
+   若沒有該檔案請從模板下載，並移除 .gitignore 中的
+   ```
+   # local env files
+   .env*.local
+   ```
 
 ### 7. 啟動測試
    

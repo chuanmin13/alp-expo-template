@@ -73,8 +73,6 @@
   "private": true,
   "files": [
     "*",
-    ".husky",
-    ".env.local.example",
-    ".gitignore"
+    ".husky"
   ]
 }

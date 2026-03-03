@@ -7,6 +7,7 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "lint": "expo lint",
+    "prepare": "husky",
     "push:ios": "npx expo export:embed --platform ios --dev false --reset-cache --bundle-output ./build-ios/main.jsbundle --assets-dest ./build-ios --bytecode && revopush release alp-expo-template-ios ./build-ios \"$version\" -d appcenter_Production -x",
     "push:android": "npx expo export:embed --platform android --dev false --reset-cache --bundle-output ./build-android/index.android.bundle --assets-dest ./build-android --bytecode && revopush release alp-expo-template-android ./build-android \"$version\" -d appcenter_Production -x"
   },

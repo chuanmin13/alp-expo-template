@@ -132,10 +132,9 @@ git rm -r --cached ios android
 ```
 
 **Git Hooks 工具 - Husky**
-```
-npx husky install
-```
-測試確認執行 git commit 時會先進行 lint-staged 檢查
+
+npm install 時候已自動執行 scripts 中的 `prepare: husky` 連結 hook
+執行 git commit 測試確認是否有先進行 lint-staged 檢查
 
 
 ## 常用指令

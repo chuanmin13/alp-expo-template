@@ -126,7 +126,7 @@
 更新原始專案的 README 以符合新架構
 
 ### 11. Git 相關
-**移除對原生資料夾的追蹤，確保.gitignore 有效**
+**移除對原生資料夾的追蹤，確保.gitignore /ios 和 /android 有效**
 ```
 git rm -r --cached ios android
 ```
@@ -148,6 +148,9 @@ npm install 時候已自動執行 scripts 中的 `prepare: husky` 連結 hook
   清除 Android/iOS 原生專案資料夾並重新生成，當遇到原生模組連結錯誤或設定未生效時，可使用此指令重置
 
   參考資料：[Continuous Native Generation (CNG)](https://docs.expo.dev/workflow/continuous-native-generation/)
+
+- **用 xcode 開啟專案**
+  prebuild 完已產生 ios 資料夾後即可執行 `xed ios`
 
 ## code push 流程更新
 

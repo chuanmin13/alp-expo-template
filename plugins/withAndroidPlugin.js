@@ -9,63 +9,97 @@ const withAndroidPlugin = (config) => {
   })
 }
 
-function modifyAppBuildGradle(contents) {
-  // 1. Inject or Update Signing Configs
-  const signingConfigsBlock = `
-    signingConfigs {
-        debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
-        }
-        release {
-            storeFile file('release.keystore')
-            storePassword ALP_UPLOAD_STORE_PASSWORD
-            keyAlias ALP_UPLOAD_KEY_ALIAS
-            keyPassword ALP_UPLOAD_KEY_PASSWORD
-        }
-    }
-`
+/**
+ * 用括號計數法找出指定 block 的範圍
+ * @returns {{ start: number, end: number } | null}
+ *   start: blockName 的起始 index
+ *   end:   對應結尾 } 的 index
+ */
+function findBlock(contents, blockName) {
+  const regex = new RegExp(`\\b${blockName}\\s*\\{`)
+  const match = regex.exec(contents)
+  if (!match) return null
 
-  if (!contents.includes('signingConfigs {')) {
-    contents = contents.replace(/buildTypes {/, `${signingConfigsBlock}\n    buildTypes {`)
+  let depth = 0
+  let i = contents.indexOf('{', match.index)
+  while (i < contents.length) {
+    if (contents[i] === '{') depth++
+    else if (contents[i] === '}') {
+      depth--
+      if (depth === 0) return { start: match.index, end: i }
+    }
+    i++
+  }
+  return null
+}
+
+/**
+ * 在指定 buildType block（debug / release）內：
+ * 1. 移除舊的 signingConfig 行
+ * 2. 在 block 結尾前插入新的 signingConfig
+ *
+ * @param {string} contents  僅包含 buildTypes { ... } 的字串
+ */
+function setSigningConfig(contents, buildType, signingConfigValue) {
+  const block = findBlock(contents, buildType)
+  if (!block) return contents
+
+  let blockStr = contents.slice(block.start, block.end + 1)
+
+  // 移除已存在的 signingConfig 行
+  blockStr = blockStr.replace(/\n[ \t]*signingConfig signingConfigs\.\w+/g, '')
+
+  // 在結尾 } 前插入
+  const lastBrace = blockStr.lastIndexOf('}')
+  blockStr =
+    blockStr.slice(0, lastBrace) +
+    `        signingConfig ${signingConfigValue}\n    }` +
+    blockStr.slice(lastBrace + 1)
+
+  return contents.slice(0, block.start) + blockStr + contents.slice(block.end + 1)
+}
+
+function modifyAppBuildGradle(contents) {
+  const signingConfigsBlock =
+    '    signingConfigs {\n' +
+    '        debug {\n' +
+    '            storeFile file(\'debug.keystore\')\n' +
+    '            storePassword \'android\'\n' +
+    '            keyAlias \'androiddebugkey\'\n' +
+    '            keyPassword \'android\'\n' +
+    '        }\n' +
+    '        release {\n' +
+    '            storeFile file(\'release.keystore\')\n' +
+    '            storePassword ALP_UPLOAD_STORE_PASSWORD\n' +
+    '            keyAlias ALP_UPLOAD_KEY_ALIAS\n' +
+    '            keyPassword ALP_UPLOAD_KEY_PASSWORD\n' +
+    '        }\n' +
+    '    }'
+
+  // 1. 注入或替換整個 signingConfigs block（括號計數，避免 nested block 截斷問題）
+  const signingBlock = findBlock(contents, 'signingConfigs')
+  if (signingBlock) {
+    contents =
+      contents.slice(0, signingBlock.start) +
+      signingConfigsBlock +
+      contents.slice(signingBlock.end + 1)
   } else {
-    const signingConfigsRegex = /signingConfigs\s*{[\s\S]*?}\n/s
-    contents = contents.replace(signingConfigsRegex, signingConfigsBlock)
+    contents = contents.replace(/(\s*buildTypes\s*\{)/, `\n${signingConfigsBlock}\n$1`)
   }
 
-  // 3. Ensure signingConfig is set in buildTypes correctly
-  // First, remove existing signingConfig lines in debug and release blocks within buildTypes
-  contents = contents.replace(
-    /(debug\s*{[\s\S]*?)\s*signingConfig signingConfigs\.\w+/g,
-    '$1'
-  )
-  contents = contents.replace(
-    /(release\s*{[\s\S]*?)\s*signingConfig signingConfigs\.\w+/g,
-    '$1'
-  )
+  // 2. 修改 buildTypes 內的 debug / release signingConfig
+  //    只在 buildTypes block 範圍內操作，避免誤改 signingConfigs 裡的同名 block
+  const buildTypesBlock = findBlock(contents, 'buildTypes')
+  if (!buildTypesBlock) return contents
 
-  // Then add them back correctly
-  contents = contents.replace(
-    /debug\s*{([\s\S]*?)}/g,
-    (match, p1) => {
-      if (!p1.includes('signingConfig signingConfigs.debug')) {
-        return `debug {${p1}        signingConfig signingConfigs.debug\n    }`
-      }
-      return match
-    }
-  )
+  let buildTypesStr = contents.slice(buildTypesBlock.start, buildTypesBlock.end + 1)
+  buildTypesStr = setSigningConfig(buildTypesStr, 'debug', 'signingConfigs.debug')
+  buildTypesStr = setSigningConfig(buildTypesStr, 'release', 'signingConfigs.release')
 
-  contents = contents.replace(
-    /release\s*{([\s\S]*?)}/g,
-    (match, p1) => {
-      if (!p1.includes('signingConfig signingConfigs.release')) {
-        return `release {${p1}        signingConfig signingConfigs.release\n    }`
-      }
-      return match
-    }
-  )
+  contents =
+    contents.slice(0, buildTypesBlock.start) +
+    buildTypesStr +
+    contents.slice(buildTypesBlock.end + 1)
 
   return contents
 }

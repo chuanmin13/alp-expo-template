@@ -44,7 +44,6 @@
 ### 2. 初始化調整
    - 移除 `package.json` 中的 `files` 欄位：該欄位僅用於 Template 下載完整性，新專案不需要
    - 複製 .husky/pre-commit 到新專案的 .husky 資料夾
-   - 將 `gitignore` 內容複製到 `.gitignore`，複製完成後可刪除
 
 ### 3. 設定專案資訊
    

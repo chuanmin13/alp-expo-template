@@ -2,7 +2,7 @@ const { withAppBuildGradle } = require('@expo/config-plugins')
 
 const withAndroidPlugin = (config) => {
   return withAppBuildGradle(config, (config) => {
-    if (config.modResults.language === 'gradle') {
+    if (config.modResults.language === 'groovy' || config.modResults.language === 'gradle') {
       config.modResults.contents = modifyAppBuildGradle(config.modResults.contents)
     }
     return config
@@ -33,32 +33,6 @@ function findBlock(contents, blockName) {
   return null
 }
 
-/**
- * 在指定 buildType block（debug / release）內：
- * 1. 移除舊的 signingConfig 行
- * 2. 在 block 結尾前插入新的 signingConfig
- *
- * @param {string} contents  僅包含 buildTypes { ... } 的字串
- */
-function setSigningConfig(contents, buildType, signingConfigValue) {
-  const block = findBlock(contents, buildType)
-  if (!block) return contents
-
-  let blockStr = contents.slice(block.start, block.end + 1)
-
-  // 移除已存在的 signingConfig 行
-  blockStr = blockStr.replace(/\n[ \t]*signingConfig signingConfigs\.\w+/g, '')
-
-  // 在結尾 } 前插入
-  const lastBrace = blockStr.lastIndexOf('}')
-  blockStr =
-    blockStr.slice(0, lastBrace) +
-    `        signingConfig ${signingConfigValue}\n    }` +
-    blockStr.slice(lastBrace + 1)
-
-  return contents.slice(0, block.start) + blockStr + contents.slice(block.end + 1)
-}
-
 function modifyAppBuildGradle(contents) {
   const signingConfigsBlock =
     '    signingConfigs {\n' +
@@ -76,7 +50,7 @@ function modifyAppBuildGradle(contents) {
     '        }\n' +
     '    }'
 
-  // 1. 注入或替換整個 signingConfigs block（括號計數，避免 nested block 截斷問題）
+  // 1. 注入或替換整個 signingConfigs block
   const signingBlock = findBlock(contents, 'signingConfigs')
   if (signingBlock) {
     contents =
@@ -84,22 +58,36 @@ function modifyAppBuildGradle(contents) {
       signingConfigsBlock +
       contents.slice(signingBlock.end + 1)
   } else {
+    // 插入在 buildTypes 之前
     contents = contents.replace(/(\s*buildTypes\s*\{)/, `\n${signingConfigsBlock}\n$1`)
   }
 
   // 2. 修改 buildTypes 內的 debug / release signingConfig
-  //    只在 buildTypes block 範圍內操作，避免誤改 signingConfigs 裡的同名 block
   const buildTypesBlock = findBlock(contents, 'buildTypes')
-  if (!buildTypesBlock) return contents
+  if (buildTypesBlock) {
+    let buildTypesStr = contents.slice(buildTypesBlock.start, buildTypesBlock.end + 1)
 
-  let buildTypesStr = contents.slice(buildTypesBlock.start, buildTypesBlock.end + 1)
-  buildTypesStr = setSigningConfig(buildTypesStr, 'debug', 'signingConfigs.debug')
-  buildTypesStr = setSigningConfig(buildTypesStr, 'release', 'signingConfigs.release')
+    // 確保 release block 使用 signingConfigs.release (如果有的話)
+    const releaseBlock = findBlock(buildTypesStr, 'release')
+    if (releaseBlock) {
+      let releaseStr = buildTypesStr.slice(releaseBlock.start, releaseBlock.end + 1)
+      if (!releaseStr.includes('signingConfigs.release')) {
+        // 替換現有的 signingConfig 或插入新的
+        if (releaseStr.includes('signingConfig')) {
+          releaseStr = releaseStr.replace(/signingConfig signingConfigs\.\w+/, 'signingConfig signingConfigs.release')
+        } else {
+          const lastBrace = releaseStr.lastIndexOf('}')
+          releaseStr = releaseStr.slice(0, lastBrace) + '        signingConfig signingConfigs.release\n    }' + releaseStr.slice(lastBrace + 1)
+        }
+        buildTypesStr = buildTypesStr.slice(0, releaseBlock.start) + releaseStr + buildTypesStr.slice(releaseBlock.end + 1)
+      }
+    }
 
-  contents =
-    contents.slice(0, buildTypesBlock.start) +
-    buildTypesStr +
-    contents.slice(buildTypesBlock.end + 1)
+    contents =
+      contents.slice(0, buildTypesBlock.start) +
+      buildTypesStr +
+      contents.slice(buildTypesBlock.end + 1)
+  }
 
   return contents
 }

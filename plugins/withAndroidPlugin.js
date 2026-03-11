@@ -1,12 +1,35 @@
-const { withAppBuildGradle } = require('@expo/config-plugins')
+const { withAppBuildGradle, withDangerousMod } = require('@expo/config-plugins')
+const fs = require('fs')
+const path = require('path')
 
 const withAndroidPlugin = (config) => {
-  return withAppBuildGradle(config, (config) => {
+  // 1. 修改 build.gradle 注入 signingConfigs
+  config = withAppBuildGradle(config, (config) => {
     if (config.modResults.language === 'groovy' || config.modResults.language === 'gradle') {
       config.modResults.contents = modifyAppBuildGradle(config.modResults.contents)
     }
     return config
   })
+
+  // 2. 自動從專案根目錄複製 release.keystore 到 android/app/
+  config = withDangerousMod(config, [
+    'android',
+    async (config) => {
+      const projectRoot = config.modRequest.projectRoot
+      const srcKeystorePath = path.join(projectRoot, 'release.keystore')
+      const destKeystorePath = path.join(projectRoot, 'android', 'app', 'release.keystore')
+
+      if (fs.existsSync(srcKeystorePath)) {
+        console.log(`[withAndroidPlugin] Copying keystore from ${srcKeystorePath} to ${destKeystorePath}`)
+        fs.copyFileSync(srcKeystorePath, destKeystorePath)
+      } else {
+        console.warn(`[withAndroidPlugin] Warning: release.keystore not found at ${srcKeystorePath}`)
+      }
+      return config
+    }
+  ])
+
+  return config
 }
 
 /**

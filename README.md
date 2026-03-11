@@ -94,6 +94,7 @@
 
 ### 8. 移植程式碼回原始專案 repo
    - 原始專案開新分支
+   - 將 android/app/release.keystore 保存存至根目錄(和 package.json 同層)
    - 移除原始專案中的以下檔案/資料夾
      - ios
      - android
